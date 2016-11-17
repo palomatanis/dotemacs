@@ -31,17 +31,21 @@
 
 ;; ;;(require 'org-settings)
 
+(require 'magit-settings)
 
+(require 'spotify-settings)
 
-;; (require 'random-requires) ;; Functions for some modes and other things
-;; (set-undo) ;; Ctrl-z powered
-;; (set-autoindent) ;; Thanks for indent!
-;; (set-auto-complete) ;; Auto complete with local definitions
-;; (set-scroll) ;; Smooth scroll ^^
-;; (set-indent-guide)  ;; The indent vertical lines.. cute!
+(require 'avy-settings)
+
+(require 'random-requires) ;; Functions for some modes and other things
+(set-undo) ;; Ctrl-z powered
+(set-autoindent) ;; Thanks for indent!
+(set-auto-complete) ;; Auto complete with local definitions
+(set-scroll) ;; Smooth scroll ^^
+(set-indent-guide)  ;; The indent vertical lines.. cute!
 ;; (set-pair)  ;; How to pair? autopair or smartparens?
-;; (set-multiple-cursors)  ;; The more, the better
-;; (set-uniquify)  ;; Buffer names uniques! (set-auto-package) ;; Auto update all
+(set-multiple-cursors)  ;; The more, the better
+(set-uniquify)  ;; Buffer names uniques! (set-auto-package) ;; Auto update all
 
 
 (require 'programming-settings)
@@ -61,7 +65,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (ensime cider clojure-mode-extra-font-locking paredit clojure-mode flycheck-elm flycheck-haskell shm hindent hi2 ghc haskell-mode which-key use-package undo-tree sx switch-window smooth-scrolling scala-mode ranger rainbow-delimiters org multiple-cursors multi-term miniedit matlab-mode helm-systemd elm-mode discover-my-major darkokai-theme auto-indent-mode auto-complete auto-compile))))
+    (avy magit ensime cider clojure-mode-extra-font-locking paredit clojure-mode flycheck-elm flycheck-haskell shm hindent hi2 ghc haskell-mode which-key use-package undo-tree sx switch-window smooth-scrolling scala-mode ranger rainbow-delimiters org multiple-cursors multi-term miniedit matlab-mode helm-systemd elm-mode discover-my-major darkokai-theme auto-indent-mode auto-complete auto-compile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
