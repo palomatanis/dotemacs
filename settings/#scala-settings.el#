@@ -8,7 +8,8 @@
     (special-mode))
   ;; execute
   (process-send-region "scala-repl" start end)
-  (process-send-string "scala-repl" "\n") ;;display buffer
+  (process-send-string "scala-repl" "\n")
+  ;;display buffer
   (display-buffer
    (get-buffer "*scala*")
    '((display-buffer-reuse-window
@@ -16,14 +17,13 @@
       display-buffer-pop-up-frame)
      (reusable-frames . 0)
      (window-height . 8) (window-width . nil))))
+ (use-package scala-mode2
+   :ensure t)
 
-;; (use-package scala-mode2
-;;   :ensure t)
-
-;; (use-package ensime
-;;   :ensure t
-;;   :config
-;;   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-;;   :bind ("C-c C-e" . eval-scala))
+(use-package ensime
+  :ensure t
+  :config
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+  :bind ("C-c C-e" . eval-scala))
 
 (provide 'scala-settings)

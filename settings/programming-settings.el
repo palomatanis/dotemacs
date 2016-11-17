@@ -9,12 +9,10 @@
 ;;--SCALA
 (require 'scala-settings)
 
-;;--JAVA
-(require 'java-settings)
-
 ;;-- ELISP
 (require 'elisp-settings)
 
+(require 'matlab-settings)
 ;; ;;--PYTHON
 ;; (require 'python-settings)
 ;; (set-ipython)
@@ -29,21 +27,21 @@
 ;; (require 'ocaml-settings)
 
 ;;--PROLOG
-(require prolog-settings)
+(require 'prolog-settings)
 
 ;;--HASKELL
-(require 'haskell-settings)
+;;(require 'haskell-settings)
 
 
 ;;--MARKDOWN
-(require 'markdown-settings)
+;;(require 'markdown-settings)
 
 
 ;;--RUST
-(require 'rust-settings)
+;;(require 'rust-settings)
 
 ;;--ELM
-(require 'elm-settings)
+;;(require 'elm-settings)
 
 ;;--CLOJURE
 (require 'clojure-settings)

@@ -32,8 +32,9 @@
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (set-input-method nil)
+
 ;; no annoying blinking cursor
-(blink-cursor-mode -1)
+;;(blink-cursor-mode -1)                  ;
 
 ;; automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -119,8 +120,10 @@
 (mouse-wheel-mode 1)
 
 (transient-mark-mode 1)
-;; Guardar sesion
-(desktop-save-mode 1)
+
+;; ;; Guardar sesion
+;; (desktop-save-mode 1)
+
 ;; memory
 (setq gc-cons-threshold 20000000)
 ;; (global-aggressive-indent-mode 1)

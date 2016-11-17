@@ -16,11 +16,14 @@
 
 (require 'package-settings)
 
-;;(require 'general-settings)
+(require 'general-settings)
+
 
 ;; ;;(require 'helm-settings)
-;; (global-linum-mode 1)
+(global-linum-mode 1)
 
+
+(require 'linum-off)
 ;; ;;(require 'term-settings)
 ;; ;;(set-multi-term)
 ;; ;;;; (set-emux)
@@ -49,3 +52,19 @@
 
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(haskell-mode-hook (quote (turn-on-haskell-doc)))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+    (ensime cider clojure-mode-extra-font-locking paredit clojure-mode flycheck-elm flycheck-haskell shm hindent hi2 ghc haskell-mode which-key use-package undo-tree sx switch-window smooth-scrolling scala-mode ranger rainbow-delimiters org multiple-cursors multi-term miniedit matlab-mode helm-systemd elm-mode discover-my-major darkokai-theme auto-indent-mode auto-complete auto-compile))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
