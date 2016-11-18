@@ -2,9 +2,13 @@
   :ensure t
   :init
   (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind (("C-c g" . magit-status)
-	 ("C-c C-c" . with-editor-finish)
-	 ("C-c C-k" . with-editor-cancel)))
+  :bind (("C-x g" . magit-status)
+         
+	 ;;("C-x C-c" . with-editor-finish)
+         ;;("C-x C-k" . with-editor-cancel)
+         ))
+
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 (use-package magit-gh-pulls
   :ensure t
