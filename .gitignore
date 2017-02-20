@@ -1,3 +1,6 @@
 session.*
 *.dat
 *#*
+
+./var
+var/*
