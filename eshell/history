@@ -1,0 +1,14 @@
+ls
+cd
+ls
+ls -la
+cd CiaoDE-1.14.2-13646/
+ls
+./ciaosetup user_install
+pacman -Ss texindex
+pacman -Ss texlive
+pacman -Ss texlive-core
+pacman -Ss texlive
+sudo pacman -S imagemagick texlive gcc-multilib
+sudo pacman -S texlive-most
+./ciaosetup user_install

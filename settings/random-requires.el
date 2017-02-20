@@ -61,6 +61,10 @@
 (use-package smooth-scrolling
   :ensure t)
 
+(use-package ox-reveal
+  :ensure t)
+(setq org-reveal-root "file:///home/paloma/reveal.js")
+
 (use-package auto-complete
   :ensure t
   :config (global-auto-complete-mode t))

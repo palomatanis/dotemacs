@@ -95,23 +95,23 @@
 ;;Other things!;
 ;;-------------;
 
-;; Backup
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-(setq delete-old-versions -1)
-(setq version-control t)
-(setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+;; ;; Backup
+;; (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+;; (setq delete-old-versions -1)
+;; (setq version-control t)
+;; (setq vc-make-backup-files t)
+;; (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
-;; Save historial
-(setq savehist-file "~/.emacs.d/savehist")
-(savehist-mode 1)
-(setq history-length t)
-(setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-additional-variables
-      '(kill-ring
-        search-ring
-        regexp-search-ring))
+;; ;; Save historial
+;; (setq savehist-file "~/.emacs.d/savehist")
+;; (savehist-mode 1)
+;; (setq history-length t)
+;; (setq history-delete-duplicates t)
+;; (setq savehist-save-minibuffer-history 1)
+;; (setq savehist-additional-variables
+;;       '(kill-ring
+;;         search-ring
+;;         regexp-search-ring))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -120,6 +120,7 @@
 (mouse-wheel-mode 1)
 
 (transient-mark-mode 1)
+(setq delete-active-region nil)
 
 ;; ;; Guardar sesion
 ;; (desktop-save-mode 1)
