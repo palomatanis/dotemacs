@@ -1,4 +1,5 @@
-(load-theme 'darkokai t)
+;;(load-theme 'darkokai t)
+(load-theme 'sanityinc-tomorrow-eighties t)
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)

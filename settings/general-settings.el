@@ -34,7 +34,7 @@
 (set-input-method nil)
 
 ;; no annoying blinking cursor
-;;(blink-cursor-mode -1)                  ;
+(blink-cursor-mode -1)
 
 ;; automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -91,6 +91,18 @@
 (global-set-key [(control shift up)]  'move-text-up)
 (global-set-key [(control shift down)]  'move-text-down)
 
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+  (move-beginning-of-line 1)
+  )
+(global-set-key (kbd "C-v") 'duplicate-line)
+
 ;;-------------;
 ;;Other things!;
 ;;-------------;
@@ -120,10 +132,10 @@
 (mouse-wheel-mode 1)
 
 (transient-mark-mode 1)
-(setq delete-active-region nil)
+;; (setq delete-active-region nil)
 
-;; ;; Guardar sesion
-;; (desktop-save-mode 1)
+;; Guardar sesion
+(desktop-save-mode 1)
 
 ;; memory
 (setq gc-cons-threshold 20000000)
