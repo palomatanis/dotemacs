@@ -16,8 +16,6 @@ eshell/history
 eshell/lastdir
 *.last
 places
-elpa/
-elpa/*
 abbrev_defs
 elpa.back
 emacs.tar.gz
