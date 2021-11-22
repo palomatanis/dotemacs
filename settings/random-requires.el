@@ -27,36 +27,23 @@
   (add-to-list 'auto-indent-disabled-modes-list 'ponylang-mode)
   (add-to-list 'auto-indent-disabled-modes-list 'python-mode))
 
-;; (use-package git-gutter-fringe+
-;;   :ensure t
-;;   :diminish git-gutter+-mode
-;;   :init
-;;   (setq-default indicate-buffer-boundaries 'left)
-;;   (setq-default indicate-empty-lines +1)
-;;   :config
-;;   (global-git-gutter+-mode 1)
-;;   (git-gutter-fr+-minimal))
+;; git-gutter marks modified chunks in the file and performs some git commands.
+;; It should be installed at the end because it will analyse any open file and
+;; crash in Windows when installing from scratch, as it has to popen git for
+;; every installed library file (org-mode specially)
+(use-package git-gutter :ensure t
+  :diminish (git-gutter-mode . "")
+  :config
+  (global-git-gutter-mode t)
+  :bind
+  ("C-x v p" . git-gutter:previous-hunk)
+  ("C-x v n" . git-gutter:next-hunk)
+  ("C-x v s" . git-gutter:stage-hunk))
 
-;; (use-package plantuml-mode
-;;   :ensure t
-;;   :init
-;;   (setq org-plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar"))
-;;   (setq plantuml-jar-path (expand-file-name "/opt/plantuml/plantuml.jar"))
-;;   :config
-;;   (org-babel-do-load-languages
-;;    ;; active Org-babel languages
-;;    'org-babel-load-languages
-;;    '(;; other Babel languages
-;;      (plantuml . t))))
-
-;; (use-package puml-mode
-;;   :ensure t
-;;   :config
-;;   ;; Enable puml-mode for PlantUML files
-;;   (add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
-;;   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
-;;   (add-to-list
-;;    'org-src-lang-modes '("plantuml" . puml)))
+;; git-gutter-fringe places git-gutter indications at the fringe in graphics
+;; mode
+(use-package git-gutter-fringe :ensure t
+  :if (boundp 'fringe-mode))
 
 (use-package smooth-scrolling
   :ensure t)
@@ -169,6 +156,35 @@
              ("u" . sx-tab-unanswered-my-tags)
              ("a" . sx-ask)
              ("s" . sx-search)))
+
+;; show name of function at point in mode line
+(which-function-mode)
+
+;; highlight the opposite parenthesis/bracket/etc to the one at the point
+(show-paren-mode 1)
+
+;; scroll with 1-line steps
+(setq scroll-step 1
+      scroll-preserve-screen-position t
+      scroll-conservatively 99999)
+
+
+;; swap buffers shown between two windows (Thomas Bellman)
+(defun swap-windows (arg)
+  "Transpose the buffers shown in two windows."
+  (interactive "p")
+  (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+    (while (/= arg 0)
+      (let ((this-win (window-buffer))
+            (next-win (window-buffer (funcall selector))))
+        (set-window-buffer (selected-window) next-win)
+        (set-window-buffer (funcall selector) this-win)
+        (select-window (funcall selector)))
+      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+
+;; shift-f6 to swap two windows' contents
+(global-set-key (kbd "S-<f6>") 'swap-windows)
+
 
 ;; (use-package outline-presentation
 ;;     ;; :disabled t
@@ -285,7 +301,7 @@
 ;;   ;; (package-require 'auto-package-update)
 ;;   ;; (auto-package-update-maybe)
 ;;    )
-   
+
 (defun set-uniquify ()
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward))

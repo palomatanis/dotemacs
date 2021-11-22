@@ -12,9 +12,12 @@
 
 (set-exec-path-from-shell-PATH)
 
-;; ;; No bars pls
-;; (menu-bar-mode -1)
-;; (tool-bar-mode -1)
+;; Open new files in already opened frame if it exists
+(setq ns-pop-up-frames nil)
+
+;; Use visual bell instead of sound
+(setq visible-bell 1)
+
 
 ;; Name
 (setq user-full-name "Paloma Pedregal"
@@ -55,7 +58,25 @@
 ;;(setq initial-frame-alist '((width . 90) (height . 45))) ; .Xdefaults
 
 (setq-default indent-tabs-mode nil)
-(setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
+(setq backward-delete-char-untabify-method nil)
+
+;; scroll with 1-line steps
+(setq scroll-step 1
+      scroll-preserve-screen-position t
+      scroll-conservatively 99999)
+
+;; always leave some lines of context when the cursor is moved to the top/bottom
+(setq scroll-margin 2)
+
+;; middle mouse button paste at cursor position instead of mouse position
+(setq mouse-yank-at-point t)
+
+;; never overflow lines
+(toggle-truncate-lines 1)
+(setq-default truncate-lines t)
+(setq-default truncate-partial-width-windows t)
+
+;; (setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
 ;; (setq linum-format "%4d \u2502") ;; theme
 
 (setq linum-format "%4d ") ;; theme
@@ -73,10 +94,10 @@
 ;;    Keys   ;
 ;;-----------;
 
-(global-set-key (kbd "M-S-<left>") 'windmove-left)
-(global-set-key (kbd "M-S-<right>") 'windmove-right)
-(global-set-key (kbd "M-S-<up>") 'windmove-up)
-(global-set-key (kbd "M-S-<down>") 'windmove-down)
+(global-set-key (kbd "C-{") 'windmove-left)
+(global-set-key (kbd "C-}") 'windmove-right)
+;; (global-set-key (kbd "C-}") 'windmove-up)
+;; (global-set-key (kbd "C-{") 'windmove-down)
 
 (global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
@@ -125,6 +146,15 @@
 ;;         search-ring
 ;;         regexp-search-ring))
 
+;; Backup
+;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
+(custom-set-variables
+ '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+ '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+
+;; create the autosave dir if necessary, since emacs won't.
+(make-directory "~/.emacs.d/autosaves/" t)
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 ;; ; turn on mouse wheel support for scrolling
@@ -164,18 +194,68 @@
 ;;  ;; If there is more than one, they won't work right.
 ;;  )
 
- 
+
 
 (defun iwb ()
-"Indent whole buffer"
-(interactive)
-(delete-trailing-whitespace)
-(indent-region (point-min) (point-max) nil)
-(untabify (point-min) (point-max))
-(message "Indent buffer: Done.")
-)
+  "Indent whole buffer"
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max) nil)
+  (untabify (point-min) (point-max))
+  (message "Indent buffer: Done.")
+  )
 
 (global-set-key (kbd "M-i") 'iwb)
 
+;; load and configure ivy/swiper/counsel completion framework
+;; (use-package wgrep :ensure t)
+(use-package hydra :ensure t)
+(use-package counsel :ensure t)
+(use-package ivy-hydra :ensure t)
+(use-package smex :ensure t
+  :config
+  (setq smex-save-file (expand-file-name "cache/smex-items" user-emacs-directory)))
+(use-package ivy :ensure t
+  :diminish (ivy-mode . "")
+  :init
+  (ivy-mode 1)
+  :config
+  (setq ivy-height 20
+        ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-dynamic-exhibit-delay-ms 200)
+  ;; Update which-function after a match is visualized without closing ivy
+  ;; (C-M-m, C-M-n, C-M-p) or in swiper with each highlighted result
+  
+  ;; (defun which-func-update-ivy () (which-func-update-1 (ivy--get-window ivy-last)))
+  ;; (advice-add 'ivy-call :after #'which-func-update-ivy)
+  ;; (advice-add 'swiper--update-input-ivy :after #'which-func-update-ivy)
+  :bind
+  ("C-c M-x" . execute-extended-command)
+  ("C-s" . swiper)
+  ("M-x" . counsel-M-x)
+  ("C-x C-f" . counsel-find-file)
+  ("<f1> f" . counsel-describe-function)
+  ("<f1> v" . counsel-describe-variable)
+  ("<f1> l" . counsel-find-library)
+  ("<f2> i" . counsel-info-lookup-symbol)
+  ("<f2> u" . counsel-unicode-char)
+  ("C-c f" . counsel-recentf)
+  ("C-c g" . counsel-git)
+  ("C-c p" . counsel-git-grep)
+  ("C-c k" . counsel-rg)
+  ("C-c l" . counsel-file-jump)
+  ("C-c r" . ivy-resume)
+  ("M-y" . counsel-yank-pop))
+
+
+;; ;; (set-variable 'ggtags-executable-directory "c:/Users/u64177/tools/global/bin")
+;; ;; (set-variable 'ggtags-executable-directory "c:/Users/ppedregalh/.emacs.d/")
+
+;; ;; third party emacs mode for using global tags
+;; (when (>= emacs-major-version 25)
+;;   (use-package ggtags :ensure t
+;;     :bind ("C-." . ggtags-find-reference)))
+;; (setq ggtags-oversize-limit (* 1 1024 1024))  ; reduce threshold to update whole GTAGS
 
 (provide 'general-settings)
