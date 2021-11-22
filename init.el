@@ -1,22 +1,13 @@
-;; Added by Package.el.  This must come before configurations of installed packages.  Don't delete this line.  If you don't want it,
+;; Added by Package.el.  This must come before configurations of
+                                        ; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
-(package-initialize nil)
+;; (package-initialize nil)
 
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/settings/")
 
-(require 'theme-settings)
-(require 'package-settings)
-(require 'general-settings)
-
-;; (global-linum-mode 1)
-
-(require 'linum-off)
-(require 'org-settings)
-(require 'magit-settings)
-(require 'avy-settings)
 (require 'random-requires) ;; Functions for some modes and other things
 (set-undo) ;; Ctrl-z powered
 (set-autoindent) ;; Thanks for indent!
@@ -26,33 +17,47 @@
 (set-multiple-cursors)  ;; The more, the better
 (set-uniquify)  ;; Buffer names uniques! (set-auto-package) ;; Auto update all
 
+
+(require 'theme-settings)
+
+(require 'package-settings)
+
+(require 'general-settings)
+
+(require 'windows-settings)
+
+;; (require 'helm-settings)
+
+(require 'org-settings)
+
+(require 'magit-settings)
+
+(require 'avy-settings)
+
 (require 'programming-settings)
 
-;; (require 'windows-settings)
+
+;; git-gutter marks modified chunks in the file and performs some git commands.
+;; It should be installed at the end because it will analyse any open file and
+;; crash in Windows when installing from scratch, as it has to popen git for
+;; every installed library file (org-mode specially)
+(use-package git-gutter :ensure t
+  :diminish (git-gutter-mode . "")
+  :config
+  (global-git-gutter-mode t)
+  :bind
+  ("C-x v p" . git-gutter:previous-hunk)
+  ("C-x v n" . git-gutter:next-hunk)
+  ("C-x v s" . git-gutter:stage-hunk))
+
+;; git-gutter-fringe places git-gutter indications at the fringe in graphics
+;; mode
+(use-package git-gutter-fringe :ensure t
+  :if (boundp 'fringe-mode))
+
+
 
 ;;; init.el ends here
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
- '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
- '(custom-safe-themes
-   (quote
-    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default)))
- '(haskell-mode-hook (quote (turn-on-haskell-doc)))
- '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages
-   (quote
-    (kotlin-mode auctex opencl-mode ido-vertical-mode flx-ido ido-ubiquitous helm-smex color-theme-solarized color-theme-sanityinc-tomorrow helm cmake-mode erlang lua-mode htmlize avy magit ensime cider clojure-mode-extra-font-locking paredit clojure-mode flycheck-elm flycheck-haskell shm hindent hi2 ghc haskell-mode which-key use-package undo-tree sx switch-window smooth-scrolling scala-mode ranger rainbow-delimiters org multiple-cursors multi-term miniedit matlab-mode helm-systemd elm-mode discover-my-major darkokai-theme auto-indent-mode auto-complete auto-compile))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 
 ;;--------------------------------------------------------------------
@@ -348,3 +353,21 @@
 ;; - Uncommon elisp tutorials:
 ;;   - http://ergoemacs.org/emacs/elisp_common_functions.html
 ;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "6ee6f99dc6219b65f67e04149c79ea316ca4bcd769a9e904030d38908fd7ccf9" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "663e89b176e3ca8dad7bdc9d42af90d7c11bdbaefe3c71fbe0471d6d6f63ac30" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" default))
+ '(initial-frame-alist '((fullscreen . maximized)))
+ '(package-selected-packages
+   '(projectile org-latex-impatient auctex zenburn-theme ws-butler which-key wgrep use-package undo-tree sx switch-window smooth-scrolling shm ranger rainbow-delimiters paredit org opencl-mode multiple-cursors multi-term move-text miniedit matlab-mode magit-gh-pulls lua-mode ivy-hydra ido-vertical-mode ido-ubiquitous htmlize hindent hi2 helm-systemd helm-smex git-timemachine git-gutter-fringe ghc ggtags flycheck-haskell flycheck-elm flx-ido erlang ensime elm-mode discover-my-major darkokai-theme counsel color-theme-solarized color-theme-sanityinc-tomorrow cmake-mode clojure-mode-extra-font-locking cider avy auto-indent-mode auto-complete auto-compile))
+ '(safe-local-variable-values '((org-confirm-babel:evaluate))))
+(custom-set-faces
+ ;; Removed spotify from above
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight normal :height 110 :width normal)))))

@@ -48,9 +48,6 @@
 (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
 
 
-(setq org-agenda-files (list "~/org/home.org"
-                             "~/org/uni.org"))
-;; (setq org-catch-invisible-edits 1)
 
 (provide 'org-settings)
 

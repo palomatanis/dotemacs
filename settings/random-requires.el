@@ -17,40 +17,58 @@
   :bind (("C-z" . undo)
          ("C-S-z" . redo)))
 
-(use-package auto-indent-mode
-  ;; :disabled t
-  :ensure t
-  :init
+;; (use-package auto-indent-mode
+;;   ;; :disabled t
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (auto-indent-global-mode)
+;;   (setq tab-width 4)
+;;   (add-to-list 'auto-indent-disabled-modes-list 'ponylang-mode)
+;;   (add-to-list 'auto-indent-disabled-modes-list 'python-mode))
+
+;; ;; configure hideshow to fold regions
+;; (use-package hideshow
+;;   :defer t
+;;   :diminish hs-minor-mode
+;;   :config
+;;   (setq hs-hide-comments nil  ;; also hide comments with hs-hide-all
+;;         hs-isearch-open 'x)   ;; isearch enters hidden text blocks
+;;   :hook (prog-mode . hs-minor-mode)
+;;   :bind
+;;   ;; f8 & f9, C-f8 & C-f9, for hs-minor-mode folding
+;;   ("<f8>" . hs-hide-block)
+;;   ("<f9>" . hs-show-block)
+;;   ("C-<f8>" . hs-hide-all)
+;;   ("C-<f9>" . hs-show-all))
+
+;; remove trailing whitespace on save only on the touched lines
+(use-package ws-butler :ensure t
+  :config (ws-butler-global-mode 1))
+
+;; move current line or region with M-up / M-down
+(use-package move-text :ensure t
+  :if (>= emacs-major-version 25)
   :config
-  (auto-indent-global-mode)
-  (setq tab-width 4)
-  (add-to-list 'auto-indent-disabled-modes-list 'ponylang-mode)
-  (add-to-list 'auto-indent-disabled-modes-list 'python-mode))
+  (move-text-default-bindings))
 
-;; git-gutter marks modified chunks in the file and performs some git commands.
-;; It should be installed at the end because it will analyse any open file and
-;; crash in Windows when installing from scratch, as it has to popen git for
-;; every installed library file (org-mode specially)
-(use-package git-gutter :ensure t
-  :diminish (git-gutter-mode . "")
-  :config
-  (global-git-gutter-mode t)
-  :bind
-  ("C-x v p" . git-gutter:previous-hunk)
-  ("C-x v n" . git-gutter:next-hunk)
-  ("C-x v s" . git-gutter:stage-hunk))
+;; ediff (bojohan): emacs -diff file1 file2
+(defun command-line-diff (switch)
+  (let ((file1 (pop command-line-args-left))
+        (file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
+(add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 
-;; git-gutter-fringe places git-gutter indications at the fringe in graphics
-;; mode
-(use-package git-gutter-fringe :ensure t
-  :if (boundp 'fringe-mode))
+;; (use-package smooth-scrolling
+;;   :ensure t)
 
-(use-package smooth-scrolling
-  :ensure t)
+;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+(setq mouse-wheel-scroll-amount '(0.07))
+(setq mouse-wheel-progressive-speed nil)
 
-(use-package ox-reveal
-  :ensure t)
-(setq org-reveal-root "file:///home/paloma/reveal.js")
+;; (use-package ox-reveal
+;;   :ensure t)
+;; (setq org-reveal-root "file:///home/paloma/reveal.js")
 
 (use-package auto-complete
   :ensure t
@@ -82,8 +100,8 @@
   :bind (("C-h M-m" . discover-my-major)
          ("C-h M-S-m" . discover-my-mode)))
 
-(use-package helm-systemd
-  :ensure t)
+;; (use-package helm-systemd
+;;   :ensure t)
 
 (use-package odf-mode
   :disabled t

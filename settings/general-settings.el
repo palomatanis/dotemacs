@@ -2,22 +2,27 @@
 ;;; General or Global Settings ;;;
                                         ;--------------------------------;
 
-;; set PATH, because we don't load .bashrc
-;; function from https://gist.github.com/jakemcc/3887459
-(defun set-exec-path-from-shell-PATH ()
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo -n $PATH'")))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+;; ;; set PATH, because we don't load .bashrc
+;; ;; function from https://gist.github.com/jakemcc/3887459
+;; (defun set-exec-path-from-shell-PATH ()
+;;   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+;;   (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo -n $PATH'")))
+;;     (setenv "PATH" path-from-shell)
+;;     (setq exec-path (split-string path-from-shell path-separator))))
 
-(set-exec-path-from-shell-PATH)
+;; (set-exec-path-from-shell-PATH)
+
+;; ggtags-executable-directory
+
+;; ;; No bars pls
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 
 ;; Open new files in already opened frame if it exists
 (setq ns-pop-up-frames nil)
 
 ;; Use visual bell instead of sound
 (setq visible-bell 1)
-
 
 ;; Name
 (setq user-full-name "Paloma Pedregal"
@@ -57,8 +62,12 @@
 ;; but give the emacs window a still good shape !
 ;;(setq initial-frame-alist '((width . 90) (height . 45))) ; .Xdefaults
 
-(setq-default indent-tabs-mode nil)
+;;(setq-default indent-tabs-mode nil)
+;; backspace removes tabs instead of untabifying and removing just one space
 (setq backward-delete-char-untabify-method nil)
+
+;; period single space ends sentence
+(setq sentence-end-double-space nil)
 
 ;; scroll with 1-line steps
 (setq scroll-step 1
@@ -76,11 +85,7 @@
 (setq-default truncate-lines t)
 (setq-default truncate-partial-width-windows t)
 
-;; (setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
-;; (setq linum-format "%4d \u2502") ;; theme
-
-(setq linum-format "%4d ") ;; theme
-;;(global-linum-mode 1)
+;;(setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
 
 (setq org-log-done 'note)
 
@@ -128,7 +133,15 @@
 ;;Other things!;
 ;;-------------;
 
-;; ;; Backup
+;; Backup
+;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
+(custom-set-variables
+  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+
+;; create the autosave dir if necessary, since emacs won't.
+(make-directory "~/.emacs.d/autosaves/" t)
+
 ;; (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 ;; (setq delete-old-versions -1)
 ;; (setq version-control t)
@@ -146,20 +159,15 @@
 ;;         search-ring
 ;;         regexp-search-ring))
 
-;; Backup
-;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
-(custom-set-variables
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
-
-;; create the autosave dir if necessary, since emacs won't.
-(make-directory "~/.emacs.d/autosaves/" t)
-
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 ;; ; turn on mouse wheel support for scrolling
 (require 'mwheel)
 (mouse-wheel-mode 1)
+
+;; open links to files in version control without asking
+(setq vc-follow-symlinks nil)
+
 
 (transient-mark-mode 1)
 ;; (setq delete-active-region nil)
@@ -207,6 +215,7 @@
 
 (global-set-key (kbd "M-i") 'iwb)
 
+
 ;; load and configure ivy/swiper/counsel completion framework
 ;; (use-package wgrep :ensure t)
 (use-package hydra :ensure t)
@@ -226,7 +235,7 @@
         ivy-dynamic-exhibit-delay-ms 200)
   ;; Update which-function after a match is visualized without closing ivy
   ;; (C-M-m, C-M-n, C-M-p) or in swiper with each highlighted result
-  
+
   ;; (defun which-func-update-ivy () (which-func-update-1 (ivy--get-window ivy-last)))
   ;; (advice-add 'ivy-call :after #'which-func-update-ivy)
   ;; (advice-add 'swiper--update-input-ivy :after #'which-func-update-ivy)
@@ -249,13 +258,13 @@
   ("M-y" . counsel-yank-pop))
 
 
-;; ;; (set-variable 'ggtags-executable-directory "c:/Users/u64177/tools/global/bin")
-;; ;; (set-variable 'ggtags-executable-directory "c:/Users/ppedregalh/.emacs.d/")
+;; (set-variable 'ggtags-executable-directory "c:/Users/u64177/tools/global/bin")
+;; (set-variable 'ggtags-executable-directory "c:/Users/ppedregalh/.emacs.d/")
 
-;; ;; third party emacs mode for using global tags
-;; (when (>= emacs-major-version 25)
-;;   (use-package ggtags :ensure t
-;;     :bind ("C-." . ggtags-find-reference)))
-;; (setq ggtags-oversize-limit (* 1 1024 1024))  ; reduce threshold to update whole GTAGS
+;; third party emacs mode for using global tags
+(when (>= emacs-major-version 25)
+  (use-package ggtags :ensure t
+    :bind ("C-." . ggtags-find-reference)))
+(setq ggtags-oversize-limit (* 1 1024 1024))  ; reduce threshold to update whole GTAGS
 
 (provide 'general-settings)
